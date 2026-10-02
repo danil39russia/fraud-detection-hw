@@ -60,6 +60,21 @@ docker compose ps        # kafka-setup должен быть в статусе E
    - 10 последних транзакций с `fraud_flag = 1` (если такие есть);
    - гистограмма распределения скоров последних 100 транзакций.
 
+## Скриншоты работы сервиса
+
+**Отправка транзакций** (загружен `data/sample_test.csv`, 100 строк):
+
+![Отправка транзакций](docs/send_transactions.png)
+
+**1. 10 последних транзакций с `fraud_flag == 1` из Postgres.** На 100 тестовых транзакциях
+ни одна не превысила порог модели 0.98, поэтому интерфейс сообщает, что таких записей нет:
+
+![10 последних фродовых транзакций](docs/fraud_last10.png)
+
+**2. Гистограмма распределения скоров последних 100 транзакций:**
+
+![Гистограмма скоров](docs/scores_histogram.png)
+
 Проверить базу напрямую:
 
 ```bash
@@ -110,6 +125,7 @@ python tools/build_artifacts.py --train train_data/train.csv
 .
 ├── docker-compose.yml
 ├── data/sample_test.csv            # пример входных данных
+├── docs/                           # скриншоты для README
 ├── postgres/init.sql               # создание витрины
 ├── fraud_detector/
 │   ├── app/app.py                  # Kafka consumer/producer
